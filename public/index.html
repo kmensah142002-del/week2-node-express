@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Week 2 API</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 600px; margin: 3rem auto; padding: 0 1rem; line-height: 1.5; }
+    h1 { color: #c8102e; }
+    code { background: #eee; padding: 2px 6px; border-radius: 4px; }
+    input, button { padding: 8px; margin: 4px 0; font-size: 1rem; }
+    #result { margin-top: 1rem; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>My Week 2 API!</h1>
+  <p>Endpoints: <code>GET /</code>, <code>POST /user</code>, <code>GET /user/:id</code></p>
+
+  <h3>Try POST /user</h3>
+  <input id="name" placeholder="Name" /><br />
+  <input id="email" placeholder="Email" /><br />
+  <button id="send">Send</button>
+  <p id="result"></p>
+
+  <script>
+    document.getElementById('send').addEventListener('click', async () => {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const out = document.getElementById('result');
+      try {
+        const res = await fetch('/user', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email })
+        });
+        out.textContent = res.ok ? await res.text() : (await res.json()).error;
+      } catch (e) {
+        out.textContent = 'Request failed.';
+      }
+    });
+  </script>
+</body>
+</html>
